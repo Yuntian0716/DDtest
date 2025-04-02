@@ -1,0 +1,13 @@
+Package: DDtest
+Type: Package
+Title: Doublet Detection Test
+Version: 0.1.0
+Authors@R: person("yuntian", email = "yuntian@umich.edu",
+                  role = c("aut", "cre"))
+Description: This package provides a complete pipeline for doublet detection in single-cell data.
+    It wraps Python preprocessing steps (barcode generation, fragment overlap counting, and overlap processing)
+    in one function and the R doublet detection (using central matching and FDR thresholding) in another.
+License: MIT
+Imports: dplyr, readr, ggplot2, MASS, splines, stats, utils
+LazyData: true
+RoxygenNote: 7.3.2
