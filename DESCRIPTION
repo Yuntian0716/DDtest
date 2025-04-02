@@ -9,10 +9,9 @@ Description: This package provides a complete pipeline for doublet detection in 
     in one function and the R doublet detection (using central matching and FDR thresholding) in another.
 License: MIT
 Imports:
-    dplyr,
     MASS,
+    dplyr,
     readr,
-    ggplot2,
     splines,
     stats,
     utils

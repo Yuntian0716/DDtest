@@ -27,9 +27,9 @@
 #' @import readr
 #' @import stats
 #' @import ggplot2
-#' @import splines
 #' @import utils
 #' @importFrom MASS boxcox
+#' @importFrom splines ns
 #'
 #' @export
 
@@ -175,8 +175,8 @@ cm_null_estimate <- function(zz, bre = 120, df = 7, pct0 = c(0.2, 0.6), nulltype
   N <- length(zz)
 
   # Poisson regression fit using natural splines
-  X <- cbind(1, ns(x, df = df))
-  f <- glm(y ~ ns(x, df = df), family = poisson)$fitted.values
+  X <- cbind(1, splines::ns(x, df = df))
+  f <- glm(y ~ splines::ns(x, df = df), family = poisson)$fitted.values
   l <- log(f)
 
   # Compute central matching estimation
