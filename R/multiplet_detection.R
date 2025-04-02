@@ -24,12 +24,12 @@
 #'   - Additional parameters used in the estimation.
 #'
 #' @import dplyr
-#' @import MASS
 #' @import readr
 #' @import stats
 #' @import ggplot2
 #' @import splines
 #' @import utils
+#' @importFrom MASS boxcox
 #'
 #' @export
 
