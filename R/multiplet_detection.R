@@ -46,7 +46,7 @@ doublet_cm <- function(dat, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype =
 
   # Apply Box-Cox transformation
   x <- data.filtered$obs
-  res <- boxcox(lm(x ~ 1, y = TRUE))
+  res <- MASS::boxcox(lm(x ~ 1, y = TRUE))
   lambda <- res$x[which.max(res$y)]
   newx <- (x^lambda - 1) / lambda
   data.filtered$new.obs <- newx
