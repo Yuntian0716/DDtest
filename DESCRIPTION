@@ -8,6 +8,13 @@ Description: This package provides a complete pipeline for doublet detection in 
     It wraps Python preprocessing steps (barcode generation, fragment overlap counting, and overlap processing)
     in one function and the R doublet detection (using central matching and FDR thresholding) in another.
 License: MIT
-Imports: dplyr, readr, ggplot2, MASS, splines, stats, utils
+Imports:
+    dplyr,
+    MASS,
+    readr,
+    ggplot2,
+    splines,
+    stats,
+    utils
 LazyData: true
 RoxygenNote: 7.3.2
