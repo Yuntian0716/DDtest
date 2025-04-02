@@ -112,13 +112,7 @@ Install the R package directly from GitHub:
 
 ```R
 install.packages("devtools")
-devtools::install_github("")
-```
-
-Clone this repository to obtain the Python preprocessing scripts:
-
-```bash
-git clone https://github.com/yourusername/DDtest.git
+devtools::install_github("Yuntian0716/DDtest")
 ```
 
 ---
