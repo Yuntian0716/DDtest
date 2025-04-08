@@ -65,6 +65,33 @@ doublet_cm <- function(dat, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype =
     sigma <- est$sigma.hat
     pi0.hat <- est$p0
     p_x_greater <- 1 - pnorm(newx, mean = mu0, sd = sigma)
+    # Visualization of histogram and null fit
+    par(
+      mar = c(5, 5, 4, 2),
+      cex.lab = 1.4,
+      cex.axis = 1.2,
+      cex.main = 1.5,
+      lwd = 2
+    )
+
+    hist(newx,
+         breaks = 50,
+         probability = TRUE,
+         col = "gray85",
+         border = NA,
+         main = "Observed Distribution with Fitted Null (Singlet) Component",
+         xlab = "Box-Cox Transformed Value",
+         ylab = "Density",
+         xlim = range(newx))
+
+    x_vals <- seq(min(newx), max(newx), length.out = 1000)
+    gauss_density <- dnorm(x_vals, mean = mu0, sd = ifelse(nulltype == 2, sigma, sigma.right))
+    lines(x_vals, gauss_density, col = "darkblue", lwd = 3)
+    grid(nx = NULL, ny = NULL, col = "gray90", lty = "dotted")
+    legend("topright", legend = "Estimated Null (Singlet) Distribution",
+           col = "darkblue", lwd = 3, bty = "n", cex = 1.1)
+    abline(v = mu0, col = "#EE553D", lty = 2, lwd = 2)
+
   } else {
     mu0 <- est$delta.hat
     sigma.left <- est$sigma.left
@@ -73,6 +100,34 @@ doublet_cm <- function(dat, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype =
     p_x_greater <- ifelse(newx > mu0,
                           1 - pnorm(newx, mean = mu0, sd = sigma.right),
                           1 - pnorm(newx, mean = mu0, sd = sigma.left))
+    hist(newx,
+         breaks = 50,
+         probability = TRUE,
+         col = "gray85",
+         border = NA,
+         main = "Observed Distribution with Asymmetric Null Fit",
+         xlab = "Box-Cox Transformed Value",
+         ylab = "Density",
+         xlim = range(newx))
+
+    # Sequence for left and right sides
+    x_left <- seq(min(newx), mu0, length.out = 500)
+    x_right <- seq(mu0, max(newx), length.out = 500)
+
+    # Asymmetric Gaussian curves
+    y_left <- dnorm(x_left, mean = mu0, sd = sigma.left)
+    y_right <- dnorm(x_right, mean = mu0, sd = sigma.right)
+
+    # Add the two density curves
+    lines(x_left, y_left, col = "darkred", lwd = 3)
+    lines(x_right, y_right, col = "darkred", lwd = 3)
+
+    # Add grid and legend
+    grid(nx = NULL, ny = NULL, col = "gray90", lty = "dotted")
+    legend("topright", legend = "Estimated Asymmetric Null (Singlet)", col = "darkred", lwd = 3, bty = "n")
+
+    # Vertical line at mu0
+    abline(v = mu0, col = "blue", lty = 2, lwd = 2)
   }
 
   pi0.hat <- pmin(1,pi0.hat)
