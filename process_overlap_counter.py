@@ -218,56 +218,56 @@ df = pd.DataFrame(matrix, columns=column_names)
 df.sum().to_csv(os.path.join(outdir, "colsum.csv"))
 
 
-#Step 4: Infer repetitive regions
-repetitive,nonrepetitive, _ = inferRepeats(matrix, unionoverlaps, qvalrepthresh)
-
-#Step 5: filter repetitive regions & run doublet detection
-repfilterindex, _ = po.getOverlapCount(filtereddata, tuple([repetitive]))
-repfiltereddata = filtereddata[repfilterindex == 0,:]
-repfiltered_unionoverlaps = po.getUnionPeaks([repfiltereddata])
-repfiltered_matrix, rcelliddict2, _ = generateMatrix(repfiltereddata, cellids, repfiltered_unionoverlaps)
-doublets_with_prob = getDoublets(repfiltered_matrix, repfiltered_unionoverlaps, rcelliddict2)
-
-summarydata_dict = dict()
-for i in range(len(summarydata)):
-    summarydata_dict[summarydata[i,0]] = summarydata[i,:]
-    
-
-doublets_cellids = []
-doublets_barcodes = []
-doublets_with_prob_barcode = []
-
-for i in range(len(doublets_with_prob)):
-    summaryrow = summarydata_dict[doublets_with_prob[i,0]]
-    
-    doublets_with_prob_barcode.append([doublets_with_prob[i,0], summaryrow[3], doublets_with_prob[i,1], doublets_with_prob[i,2]])
-    
-    if doublets_with_prob[i,2] < qvalthresh:
-        doublets_cellids.append(doublets_with_prob[i,0])
-        doublets_barcodes.append(summaryrow[3])
-
-#Output doublets
-multiplet_cellids_file = os.path.join(outdir, "MultipletCellIds_" + str(qvalthresh).split(".")[1] + ".txt")
-multiplet_barcodes_file = os.path.join(outdir, "MultipletBarcodes_" + str(qvalthresh).split(".")[1] + ".txt")
-multiplet_probabilities_file = os.path.join(outdir, "MultipletProbabilities.txt")
-multiplet_summary_file = os.path.join(outdir, "MultipletSummary.txt")
-
-pd.DataFrame(doublets_cellids).to_csv(multiplet_cellids_file, header=None, index=None, sep="\t")
-pd.DataFrame(doublets_barcodes).to_csv(multiplet_barcodes_file, header=None, index=None, sep="\t")
-pd.DataFrame(doublets_with_prob_barcode, columns=["cell_id", "barcode", "p-value", "q-value"])\
-    .to_csv(multiplet_probabilities_file, index=None, sep="\t")
-
-# Output stats.
-stats_numbercells = len(cellids)
-stats_numberunionregions = len(unionoverlaps)
-stats_numberdoublets = len(doublets_cellids)
-stats_percentdoublets = stats_numberdoublets * 100 / stats_numbercells
-doublet_stats = np.array([
-    ["Number of Cells", stats_numbercells],
-    ["Number of Merged Regions", stats_numberunionregions],
-    ["Number of Multiplets", stats_numberdoublets],
-    ["Multiplet Percent", stats_percentdoublets]
-])
-pd.DataFrame(doublet_stats).to_csv(multiplet_summary_file, index=None, header=None, sep="\t")
+# #Step 4: Infer repetitive regions
+# repetitive,nonrepetitive, _ = inferRepeats(matrix, unionoverlaps, qvalrepthresh)
+# 
+# #Step 5: filter repetitive regions & run doublet detection
+# repfilterindex, _ = po.getOverlapCount(filtereddata, tuple([repetitive]))
+# repfiltereddata = filtereddata[repfilterindex == 0,:]
+# repfiltered_unionoverlaps = po.getUnionPeaks([repfiltereddata])
+# repfiltered_matrix, rcelliddict2, _ = generateMatrix(repfiltereddata, cellids, repfiltered_unionoverlaps)
+# doublets_with_prob = getDoublets(repfiltered_matrix, repfiltered_unionoverlaps, rcelliddict2)
+# 
+# summarydata_dict = dict()
+# for i in range(len(summarydata)):
+#     summarydata_dict[summarydata[i,0]] = summarydata[i,:]
+#     
+# 
+# doublets_cellids = []
+# doublets_barcodes = []
+# doublets_with_prob_barcode = []
+# 
+# for i in range(len(doublets_with_prob)):
+#     summaryrow = summarydata_dict[doublets_with_prob[i,0]]
+#     
+#     doublets_with_prob_barcode.append([doublets_with_prob[i,0], summaryrow[3], doublets_with_prob[i,1], doublets_with_prob[i,2]])
+#     
+#     if doublets_with_prob[i,2] < qvalthresh:
+#         doublets_cellids.append(doublets_with_prob[i,0])
+#         doublets_barcodes.append(summaryrow[3])
+# 
+# #Output doublets
+# multiplet_cellids_file = os.path.join(outdir, "MultipletCellIds_" + str(qvalthresh).split(".")[1] + ".txt")
+# multiplet_barcodes_file = os.path.join(outdir, "MultipletBarcodes_" + str(qvalthresh).split(".")[1] + ".txt")
+# multiplet_probabilities_file = os.path.join(outdir, "MultipletProbabilities.txt")
+# multiplet_summary_file = os.path.join(outdir, "MultipletSummary.txt")
+# 
+# pd.DataFrame(doublets_cellids).to_csv(multiplet_cellids_file, header=None, index=None, sep="\t")
+# pd.DataFrame(doublets_barcodes).to_csv(multiplet_barcodes_file, header=None, index=None, sep="\t")
+# pd.DataFrame(doublets_with_prob_barcode, columns=["cell_id", "barcode", "p-value", "q-value"])\
+#     .to_csv(multiplet_probabilities_file, index=None, sep="\t")
+# 
+# # Output stats.
+# stats_numbercells = len(cellids)
+# stats_numberunionregions = len(unionoverlaps)
+# stats_numberdoublets = len(doublets_cellids)
+# stats_percentdoublets = stats_numberdoublets * 100 / stats_numbercells
+# doublet_stats = np.array([
+#     ["Number of Cells", stats_numbercells],
+#     ["Number of Merged Regions", stats_numberunionregions],
+#     ["Number of Multiplets", stats_numberdoublets],
+#     ["Multiplet Percent", stats_percentdoublets]
+# ])
+# pd.DataFrame(doublet_stats).to_csv(multiplet_summary_file, index=None, header=None, sep="\t")
 
 print("Done.")

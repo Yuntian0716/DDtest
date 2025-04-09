@@ -135,7 +135,7 @@ doublet_cm <- function(dat, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype =
   # Compute FDR
   result$singlet.cdf.complement <- p_x_greater
   result$FDR <- (result$singlet.cdf.complement * pi0.hat) / (1 - result$ECDF)
-  result$FDR[is.na(result$FDR)] <- 0
+  result$FDR[is.na(result$FDR) | is.infinite(result$FDR)] <- 0
 
   # Store results
   data.filtered$box.cox.obs.truncated <- result$Observation
