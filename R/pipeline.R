@@ -106,6 +106,6 @@ run_detection <- function(input, ...) {
   colnames(data) <- c("barcode", "obs")
   message("Running doublet detection in R...")
   # For demonstration, using nulltype = 2 and default parameters.
-  result <- doublet_cm(data, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype = 2, thres = 0.2, ...)
+  result <- doublet_cm(data, ...)
   return(result)
 }
