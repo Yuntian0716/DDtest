@@ -27,6 +27,6 @@ A list containing:
   - `p0`: Estimated null proportion for normalization.
 }
 \description{
-This function estimates the null distribution of a dataset by performing truncation, 
+This function estimates the null distribution of a dataset by performing truncation,
 Poisson regression, and either a symmetric or asymmetric quadratic approximation.
 }

@@ -1,11 +1,13 @@
-
 # DDtest
 
 <!-- badges: start -->
 <!-- badges: end -->
 
+DDtest is an R package for detecting doublets in single-cell ATAC-seq data using fragment overlap patterns and central matching statistics.
 
-## Pipeline Overview
+---
+
+## 📦 Pipeline Overview
 
 The workflow consists of four distinct, sequential steps:
 
@@ -33,12 +35,12 @@ Extract valid cell barcodes from raw and filtered feature barcode matrices provi
 
 ### 2. Fragment Overlap Calculation
 
-Compute overlaps between ATAC-seq fragments and specified genomic regions (e.g., human autosomes).
+Compute overlaps between ATAC-seq fragments and specified genomic regions (e.g., autosomes).
 
 **Input Files:**
 - `atac_fragments.tsv.gz` (ATAC-seq fragment file)
 - `singlecell.csv` (from previous step)
-- `human_autosomes.txt` (List of chromosomes to include)
+- `human_autosomes.txt` (bundled with the package)
 
 **Output Files:**
 - `Overlaps.txt`
@@ -59,6 +61,7 @@ Process overlap data to filter repetitive genomic regions (optional), summarize 
 
 ---
 
+
 ### 4. Doublet Classification
 
 Utilize R-based statistical modeling (`doublet_cm` function) to classify cells as doublets or singlets. This method applies Box-Cox transformations, estimates null distributions via central matching, calculates False Discovery Rates (FDR), and classifies cells based on a chosen threshold.
@@ -67,20 +70,24 @@ Utilize R-based statistical modeling (`doublet_cm` function) to classify cells a
 - `colsum.csv` (output from previous step)
 
 **R Script:**
-```R
+```r
 library(DDtest)
 library(readr)
 
 filtered_h5 <- "/hits/Johann_Novaseq/fastq/8193-JF/10x_analysis_8193-JF/Sample_8193-JF-3/filtered_feature_bc_matrix.h5"
 raw_h5 <- "/hits/Johann_Novaseq/fastq/8193-JF/10x_analysis_8193-JF/Sample_8193-JF-3/raw_feature_bc_matrix.h5"
 atac_fragments <- "/hits/Johann_Novaseq/fastq/8193-JF/10x_analysis_8193-JF/Sample_8193-JF-3/atac_fragments.tsv.gz"
-human_autosomes <- "/home/yuntian/Doublet_Detection/New_approach/atac_doublet_sharing_DIG_GSE200417/package_test/human_autosomes.txt"
 output_directory <- "/home/yuntian/Doublet_Detection/New_approach/atac_doublet_sharing_DIG_GSE200417/package_test/8193-JF-3"
-py_dir <- "/home/yuntian/Doublet_Detection/New_approach/atac_doublet_sharing_DIG_GSE200417/package_test"  # Directory containing the Python scripts
 rfilter_file = "/home/yuntian/Doublet_Detection/New_approach/atac_doublet_sharing_DIG_GSE200417/package_test/blacklist_repeats_segdups_rmsk_hg38.bed"
 
-colsum_path <- run_preprocessing_pipeline(filtered_h5, raw_h5, atac_fragments, human_autosomes,
-                                          output_directory, py_dir,rfilter_file)
+colsum_path <- run_preprocessing_pipeline(
+  filtered_h5 = filtered_h5,
+  raw_h5 = raw_h5,
+  atac_fragments = atac_fragments,
+  output_directory = output_directory,
+  rfilter_file = rfilter_file
+)
+
 res <- run_detection(colsum_path)
 ```
 

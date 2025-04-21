@@ -1,10 +1,15 @@
 import numpy as np
 import pandas as pd
-import peakoverlap as po
 import scipy.stats as stats
 import statsmodels.api as sm
 import argparse
 import os
+import sys
+
+# Add the current script directory (where peakoverlap.py is) to sys.path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import peakoverlap as po
 
 
 parser = argparse.ArgumentParser(description='Process Overlap Counter outputs for doublet detection.')

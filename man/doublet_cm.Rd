@@ -38,7 +38,7 @@ A list containing:
   - Additional parameters used in the estimation.
 }
 \description{
-This function performs doublet detection on a dataset by applying Box-Cox transformation, 
-estimating null distributions, computing False Discovery Rate (FDR), and classifying 
+This function performs doublet detection on a dataset by applying Box-Cox transformation,
+estimating null distributions, computing False Discovery Rate (FDR), and classifying
 cells as "Doublet" or "Singlet" based on a specified threshold.
 }
