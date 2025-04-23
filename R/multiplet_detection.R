@@ -180,11 +180,11 @@ doublet_cm <- function(dat, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype =
   # Return final dataset
   if (nulltype == 3){
 
-    return(list(result = res, pi0.hat = pi0.correct, mu0.hat = mu0, sigma.left = sigma.left,  sigma.right =  sigma.right))
+    return(list(result = res, pi0.hat.all = pi0.correct, pi0.hat = pi0.hat, mu0.hat = mu0, sigma.left = sigma.left,  sigma.right =  sigma.right))
 
   } else{
 
-    return(list(result = res, pi0.hat = pi0.correct, mu0.hat = mu0, sigma.hat = sigma))
+    return(list(result = res, pi0.hat.all = pi0.correct, pi0.hat = pi0.hat, mu0.hat = mu0, sigma.hat = sigma))
 
   }
 
