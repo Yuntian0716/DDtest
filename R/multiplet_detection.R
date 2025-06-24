@@ -84,7 +84,9 @@ doublet_cm <- function(dat, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype =
       BIC     = BIC_val
     )
 
-    print(gof_list)
+    cat("AIC:", AIC_val, "\n")
+    cat("BIC:", BIC_val, "\n")
+
     ## ------------------------------------------------------------
 
     p_x_greater <- 1 - pnorm(newx, mean = mu0, sd = sigma)
@@ -207,7 +209,7 @@ doublet_cm <- function(dat, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype =
 
   } else{
 
-    return(list(result = res, pi0.hat.all = pi0.correct, pi0.hat = pi0.hat, mu0.hat = mu0, sigma.hat = sigma))
+    return(list(result = res, gof = gof_list, pi0.hat.all = pi0.correct, pi0.hat = pi0.hat, mu0.hat = mu0, sigma.hat = sigma))
 
   }
 
