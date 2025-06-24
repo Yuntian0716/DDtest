@@ -64,6 +64,29 @@ doublet_cm <- function(dat, truncation_point = 0, pct0 = c(0.2, 0.6), nulltype =
     mu0 <- est$delta.hat
     sigma <- est$sigma.hat
     pi0.hat <- est$p0
+
+    ## ---------- goodness-of-fit on the CENTRAL window ----------
+    lo.win <- quantile(newx, pct0[1])
+    hi.win <- quantile(newx, pct0[2])
+    window_vals <- newx[newx > lo.win & newx < hi.win]
+
+    ## log-likelihood, AIC, BIC
+    logLik_gaus <- sum(dnorm(window_vals,
+                             mean = mu0, sd = sigma,
+                             log  = TRUE))
+    k   <- 2
+    n   <- length(window_vals)
+    AIC_val <- 2 * k - 2 * logLik_gaus
+    BIC_val <- k * log(n) - 2 * logLik_gaus
+
+    gof_list <- list(
+      AIC     = AIC_val,
+      BIC     = BIC_val
+    )
+
+    print(gof_list)
+    ## ------------------------------------------------------------
+
     p_x_greater <- 1 - pnorm(newx, mean = mu0, sd = sigma)
     # Visualization of histogram and null fit
     par(
